@@ -11,37 +11,61 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as RoadmapIndexImport } from './routes/roadmap/index'
 
 // Create/Update Routes
+
+const RoadmapIndexRoute = RoadmapIndexImport.update({
+  id: '/roadmap/',
+  path: '/roadmap/',
+  getParentRoute: () => rootRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {}
+  interface FileRoutesByPath {
+    '/roadmap/': {
+      id: '/roadmap/'
+      path: '/roadmap'
+      fullPath: '/roadmap'
+      preLoaderRoute: typeof RoadmapIndexImport
+      parentRoute: typeof rootRoute
+    }
+  }
 }
 
 // Create and export the route tree
 
-export interface FileRoutesByFullPath {}
+export interface FileRoutesByFullPath {
+  '/roadmap': typeof RoadmapIndexRoute
+}
 
-export interface FileRoutesByTo {}
+export interface FileRoutesByTo {
+  '/roadmap': typeof RoadmapIndexRoute
+}
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
+  '/roadmap/': typeof RoadmapIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: never
+  fullPaths: '/roadmap'
   fileRoutesByTo: FileRoutesByTo
-  to: never
-  id: '__root__'
+  to: '/roadmap'
+  id: '__root__' | '/roadmap/'
   fileRoutesById: FileRoutesById
 }
 
-export interface RootRouteChildren {}
+export interface RootRouteChildren {
+  RoadmapIndexRoute: typeof RoadmapIndexRoute
+}
 
-const rootRouteChildren: RootRouteChildren = {}
+const rootRouteChildren: RootRouteChildren = {
+  RoadmapIndexRoute: RoadmapIndexRoute,
+}
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
@@ -52,7 +76,12 @@ export const routeTree = rootRoute
   "routes": {
     "__root__": {
       "filePath": "__root.jsx",
-      "children": []
+      "children": [
+        "/roadmap/"
+      ]
+    },
+    "/roadmap/": {
+      "filePath": "roadmap/index.jsx"
     }
   }
 }
