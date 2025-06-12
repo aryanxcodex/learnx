@@ -18,6 +18,7 @@ router.get("/", async (req, res) => {
   const prompt = `
   List 10 important React topics and their explanations.
   Each item must include a unique "id", a "topic" string, and a "description".
+  Keep the description a one liner.
   Only return a JSON array of objects — no extra text.
   `;
 
